@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Setup Guide - Know It All</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS VARIABLES (Design System) ===== */
+        :root {
+            --bg-main: #FFFEF5;
+            --text-primary: #002c66;
+            --accent: #feda15;
+            --card-bg: #ffffff;
+            --card-border: #F0F0ED;
+            --border-radius: 16px;
+            --font-family: 'Inter', sans-serif;
+        }
+
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* ===== CUSTOM SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e5c813;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--bg-main);
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        /* ===== CARD COMPONENT ===== */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 40px rgba(0, 44, 102, 0.1);
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: var(--bg-main);
+            border-bottom: 1px solid var(--card-border);
+            z-index: 1000;
+            padding: 16px 0;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .back-btn {
+            background: var(--accent);
+            color: var(--text-primary);
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(254, 218, 21, 0.4);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        .hero-headline {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero-subtext {
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto 48px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(254, 218, 21, 0.2);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        /* ===== SETUP STEPS ===== */
+        .setup-section {
+            padding: 40px 0 80px;
+        }
+
+        .steps-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .step-card {
+            padding: 40px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            color: var(--text-primary);
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .step-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .step-description {
+            font-size: 1.05rem;
+            opacity: 0.85;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .step-content {
+            margin-top: 24px;
+        }
+
+        .code-block {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 20px;
+            margin: 16px 0;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+            margin: 0;
+        }
+
+        .code-block .keyword { color: #c792ea; }
+        .code-block .string { color: #c3e88d; }
+        .code-block .comment { color: #676e95; }
+
+        .instruction-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .instruction-list li {
+            padding: 12px 0 12px 40px;
+            position: relative;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .instruction-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 28px;
+            height: 28px;
+            background: rgba(254, 218, 21, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .note-box {
+            background: rgba(254, 218, 21, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .note-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .screenshot-placeholder {
+            background: linear-gradient(135deg, #f8f8f5 0%, #ffffff 100%);
+            border: 2px dashed var(--card-border);
+            border-radius: 12px;
+            padding: 60px 20px;
+            text-align: center;
+            margin: 24px 0;
+            color: var(--text-primary);
+            opacity: 0.6;
+        }
+
+        .screenshot-placeholder svg {
+            width: 48px;
+            height: 48px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+
+        /* ===== REQUIREMENTS SECTION ===== */
+        .requirements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .requirement-card {
+            padding: 24px;
+            text-align: center;
+        }
+
+        .requirement-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(254, 218, 21, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .requirement-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--text-primary);
+        }
+
+        .requirement-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .requirement-text {
+            font-size: 0.95rem;
+            opacity: 0.75;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 60px 40px;
+            text-align: center;
+            margin: 60px auto;
+            max-width: 800px;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta-text {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 32px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--text-primary);
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(254, 218, 21, 0.4);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--bg-main);
+            border-top: 1px solid var(--card-border);
+            padding: 32px 0;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-headline {
+                font-size: 2rem;
+            }
+
+            .hero-subtext {
+                font-size: 1rem;
+            }
+
+            .step-card {
+                padding: 24px;
+            }
+
+            .step-title {
+                font-size: 1.4rem;
+            }
+
+            .requirements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section {
+                padding: 40px 24px;
+            }
+
+            .cta-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="icon.png" alt="Know It All" class="logo-icon">
+                Know It All
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#docs">Resources</a></li>
+                <li><a href="index.html" class="back-btn">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Home
+                </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge fade-in">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+                Quick Setup Guide
+            </div>
+            <h1 class="hero-headline fade-in">Get Started in <span style="color: var(--accent);">Under a Minute</span></h1>
+            <p class="hero-subtext fade-in">Follow these simple steps to install and configure Know It All Chrome extension. Start using AI-powered features on any webpage instantly.</p>
+        </div>
+    </section>
+
+    <!-- REQUIREMENTS SECTION -->
+    <section class="section">
+        <div class="container">
+            <div class="steps-container">
+                <div class="step-card card fade-in">
+                    <div class="step-number">📋</div>
+                    <h2 class="step-title">Requirements</h2>
+                    <p class="step-description">Before you begin, make sure you have the following:</p>
+                    
+                    <div class="requirements-grid">
+                        <div class="requirement-card card">
+                            <div class="requirement-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                            </div>
+                            <h3 class="requirement-title">Google Chrome</h3>
+                            <p class="requirement-text">Version 88 or higher</p>
+                        </div>
+                        <div class="requirement-card card">
+                            <div class="requirement-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                                </svg>
+                            </div>
+                            <h3 class="requirement-title">Gemini API Key</h3>
+                            <p class="requirement-text">Free from Google AI Studio</p>
+                        </div>
+                        <div class="requirement-card card">
+                            <div class="requirement-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                                </svg>
+                            </div>
+                            <h3 class="requirement-title">Internet Connection</h3>
+                            <p class="requirement-text">Required for AI features</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SETUP STEPS -->
+    <section class="setup-section">
+        <div class="container">
+            <div class="steps-container">
+                <!-- Step 1 -->
+                <div class="step-card card fade-in">
+                    <div class="step-number">1</div>
+                    <h2 class="step-title">Download the Extension</h2>
+                    <p class="step-description">Get the latest version of Know It All from GitHub.</p>
+                    
+                    <div class="step-content">
+                        <ul class="instruction-list">
+                            <li>Visit the <a href="https://github.com/jared-steven-dev/Know-it-all" target="_blank" style="color: var(--text-primary); font-weight: 600; text-decoration: underline;">GitHub repository</a></li>
+                            <li>Click on the green "Code" button</li>
+                            <li>Select "Download ZIP" to download the extension files</li>
+                            <li>Extract the ZIP file to a location on your computer</li>
+                        </ul>
+
+                        <div class="note-box">
+                            <strong>💡 Pro Tip:</strong>
+                            Keep the extracted folder in a permanent location. Don't delete it after installation, as Chrome needs to access these files.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-card card fade-in">
+                    <div class="step-number">2</div>
+                    <h2 class="step-title">Get Your Gemini API Key</h2>
+                    <p class="step-description">You'll need a free API key from Google AI Studio to power the AI features.</p>
+                    
+                    <div class="step-content">
+                        <ul class="instruction-list">
+                            <li>Go to <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--text-primary); font-weight: 600; text-decoration: underline;">Google AI Studio</a></li>
+                            <li>Sign in with your Google account</li>
+                            <li>Click "Create API Key" button</li>
+                            <li>Copy your API key and save it securely</li>
+                        </ul>
+
+                        <div class="note-box">
+                            <strong>🔒 Security Note:</strong>
+                            Your API key is stored locally in your browser and never shared. Keep it private and don't share it with others.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-card card fade-in">
+                    <div class="step-number">3</div>
+                    <h2 class="step-title">Load the Extension in Chrome</h2>
+                    <p class="step-description">Install the extension in Chrome using Developer Mode.</p>
+                    
+                    <div class="step-content">
+                        <ul class="instruction-list">
+                            <li>Open Google Chrome and navigate to <code style="background: rgba(254, 218, 21, 0.2); padding: 2px 8px; border-radius: 4px;">chrome://extensions/</code></li>
+                            <li>Enable "Developer mode" using the toggle in the top-right corner</li>
+                            <li>Click "Load unpacked" button</li>
+                            <li>Select the extracted extension folder</li>
+                            <li>The extension icon should appear in your Chrome toolbar</li>
+                        </ul>
+
+                        <div class="note-box">
+                            <strong>⚠️ Important:</strong>
+                            Make sure to select the folder containing the manifest.json file, not a parent folder.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step-card card fade-in">
+                    <div class="step-number">4</div>
+                    <h2 class="step-title">Configure Your API Key</h2>
+                    <p class="step-description">Enter your Gemini API key to activate all AI features.</p>
+                    
+                    <div class="step-content">
+                        <ul class="instruction-list">
+                            <li>Click on the Know It All extension icon in your Chrome toolbar</li>
+                            <li>Click on the "Settings" or gear icon</li>
+                            <li>Paste your Gemini API key in the API Key field</li>
+                            <li>Click "Save" to store your configuration</li>
+                        </ul>
+
+                        <div class="note-box">
+                            <strong>✨ You're All Set!</strong>
+                            Your extension is now ready to use. Try selecting any text on a webpage to see the AI features in action.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="step-card card fade-in">
+                    <div class="step-number">5</div>
+                    <h2 class="step-title">Start Using Know It All</h2>
+                    <p class="step-description">Select any text on any webpage and choose from powerful AI features.</p>
+                    
+                    <div class="step-content">
+                        <ul class="instruction-list">
+                            <li><strong>Select text</strong> on any webpage</li>
+                            <li><strong>Choose an action</strong> from the popup menu (Explain, Summarize, Translate, etc.)</li>
+                            <li><strong>View results</strong> instantly in a beautiful side panel</li>
+                            <li><strong>Copy or share</strong> the AI-generated content</li>
+                        </ul>
+
+                        <div class="requirements-grid" style="margin-top: 32px;">
+                            <div class="requirement-card card">
+                                <div class="requirement-icon">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M9 11H7v2h2v-2zm4 0h-2v2h2v-2zm4 0h-2v2h2v-2zm2-7h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="requirement-title">Explain</h3>
+                                <p class="requirement-text">Get clear explanations of complex text</p>
+                            </div>
+                            <div class="requirement-card card">
+                                <div class="requirement-icon">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="requirement-title">Summarize</h3>
+                                <p class="requirement-text">Get concise summaries of long content</p>
+                            </div>
+                            <div class="requirement-card card">
+                                <div class="requirement-icon">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M12.87 15.07l-2.54-2.51.03-.03c1.74-1.94 2.98-4.17 3.71-6.53H17V4h-7V2H8v2H1v1.99h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="requirement-title">Translate</h3>
+                                <p class="requirement-text">Translate text to any language</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="section">
+        <div class="container">
+            <div class="cta-section fade-in">
+                <h2 class="cta-title">Need Help?</h2>
+                <p class="cta-text">If you encounter any issues during setup, check out our GitHub repository for detailed documentation and troubleshooting guides.</p>
+                <a href="https://github.com/jared-steven-dev/Know-it-all" target="_blank" class="btn-primary">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
+                    Visit GitHub Repository
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 - 2025 Know It All. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ANIMATIONS SCRIPT -->
+    <script>
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

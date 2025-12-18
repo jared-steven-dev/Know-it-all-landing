@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Key Setup - Know It All</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS VARIABLES (Design System) ===== */
+        :root {
+            --bg-main: #FFFEF5;
+            --text-primary: #002c66;
+            --accent: #feda15;
+            --card-bg: #ffffff;
+            --card-border: #F0F0ED;
+            --border-radius: 16px;
+            --font-family: 'Inter', sans-serif;
+        }
+
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* ===== CUSTOM SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e5c813;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--bg-main);
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        /* ===== CARD COMPONENT ===== */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 40px rgba(0, 44, 102, 0.1);
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: var(--bg-main);
+            border-bottom: 1px solid var(--card-border);
+            z-index: 1000;
+            padding: 16px 0;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .back-btn {
+            background: var(--accent);
+            color: var(--text-primary);
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(254, 218, 21, 0.4);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        .hero-headline {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero-subtext {
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto 48px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(254, 218, 21, 0.2);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        /* ===== SETUP STEPS ===== */
+        .setup-section {
+            padding: 40px 0 80px;
+        }
+
+        .steps-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .step-card {
+            padding: 40px;
+            margin-bottom: 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .step-card::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--accent);
+        }
+
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            background: var(--accent);
+            color: var(--text-primary);
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .step-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .step-description {
+            font-size: 1.05rem;
+            opacity: 0.85;
+            line-height: 1.7;
+            margin-bottom: 24px;
+        }
+
+        .step-content {
+            margin-top: 24px;
+        }
+
+        .instruction-list {
+            list-style: none;
+            margin: 20px 0;
+        }
+
+        .instruction-list li {
+            padding: 12px 0 12px 40px;
+            position: relative;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .instruction-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            top: 12px;
+            width: 28px;
+            height: 28px;
+            background: rgba(254, 218, 21, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .note-box {
+            background: rgba(254, 218, 21, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .note-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        .warning-box {
+            background: rgba(255, 87, 87, 0.1);
+            border-left: 4px solid #ff5757;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .warning-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            color: #c73030;
+        }
+
+        .info-box {
+            background: rgba(0, 123, 255, 0.1);
+            border-left: 4px solid #007bff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            color: #0056b3;
+        }
+
+        /* ===== API KEY VISUAL ===== */
+        .api-key-visual {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 24px;
+            margin: 24px 0;
+            font-family: 'Courier New', monospace;
+            color: #e0e0e0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .api-key-label {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 12px;
+        }
+
+        .api-key-example {
+            font-size: 1rem;
+            color: #c3e88d;
+            letter-spacing: 1px;
+            word-break: break-all;
+        }
+
+        .copy-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--accent);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: var(--font-family);
+        }
+
+        /* ===== FEATURE GRID ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .feature-card {
+            padding: 28px;
+            text-align: center;
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(254, 218, 21, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .feature-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--text-primary);
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .feature-text {
+            font-size: 0.95rem;
+            opacity: 0.75;
+            line-height: 1.6;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 60px 40px;
+            text-align: center;
+            margin: 60px auto;
+            max-width: 800px;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta-text {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 32px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--text-primary);
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(254, 218, 21, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            border: 2px solid var(--card-border);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            margin-left: 12px;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            background: rgba(254, 218, 21, 0.1);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--bg-main);
+            border-top: 1px solid var(--card-border);
+            padding: 32px 0;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-headline {
+                font-size: 2rem;
+            }
+
+            .hero-subtext {
+                font-size: 1rem;
+            }
+
+            .step-card {
+                padding: 24px;
+            }
+
+            .step-title {
+                font-size: 1.4rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section {
+                padding: 40px 24px;
+            }
+
+            .cta-title {
+                font-size: 1.5rem;
+            }
+
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 12px;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="icon.png" alt="Know It All" class="logo-icon">
+                Know It All
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#docs">Resources</a></li>
+                <li><a href="index.html" class="back-btn">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Home
+                </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge fade-in">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+                </svg>
+                API Key Setup Guide
+            </div>
+            <h1 class="hero-headline fade-in">Get Your Free <span style="color: var(--accent);">Gemini API Key</span></h1>
+            <p class="hero-subtext fade-in">Learn how to obtain and configure your Google Gemini API key to unlock all AI-powered features in Know It All extension.</p>
+        </div>
+    </section>
+
+    <!-- SETUP STEPS -->
+    <section class="setup-section">
+        <div class="container">
+            <div class="steps-container">
+                <!-- Step 1 -->
+                <div class="step-card card fade-in">
+                    <div class="step-number">1</div>
+                    <h2 class="step-title">Visit Google AI Studio</h2>
+                    <p class="step-description">Google AI Studio is the official platform for accessing Gemini API keys.</p>
+                    
+                    <div class="step-content">
+                        <ul class="instruction-list">
+                            <li>Open your web browser and navigate to <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: var(--text-primary); font-weight: 600; text-decoration: underline;">aistudio.google.com/app/apikey</a></li>
+                            <li>You'll be directed to the Google AI Studio API key management page</li>
+                        </ul>
+
+                        <div class="note-box">
+                            <strong>💡 Quick Access:</strong>
+                            Click the link above to go directly to the API key creation page. Make sure you're signed in to your Google account.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="step-card card fade-in">
+                    <div class="step-number">2</div>
+                    <h2 class="step-title">Sign In with Your Google Account</h2>
+                    <p class="step-description">Use any Google account to access AI Studio and create your API key.</p>
+                    
+                    <div class="step-content">
+                        <ul class="instruction-list">
+                            <li>Click "Sign in" if you're not already logged in</li>
+                            <li>Choose your Google account or create a new one</li>
+                            <li>Accept the terms of service if prompted</li>
+                        </ul>
+
+                        <div class="info-box">
+                            <strong>ℹ️ Account Requirements:</strong>
+                            You can use any personal or work Google account. No special permissions or subscriptions are required for the free tier.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="step-card card fade-in">
+                    <div class="step-number">3</div>
+                    <h2 class="step-title">Create Your API Key</h2>
+                    <p class="step-description">Generate a new API key that will power the AI features in Know It All.</p>
+                    
+                    <div class="step-content">
+                        <ul class="instruction-list">
+                            <li>Click the "Create API Key" button</li>
+                            <li>Select an existing Google Cloud project or create a new one</li>
+                            <li>Wait a few seconds for the key to be generated</li>
+                            <li>Your new API key will be displayed on the screen</li>
+                        </ul>
+
+                        <div class="api-key-visual">
+                            <div class="copy-indicator">Example</div>
+                            <div class="api-key-label">Your API Key:</div>
+                            <div class="api-key-example">AIzaSyDXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX</div>
+                        </div>
+
+                        <div class="warning-box">
+                            <strong>⚠️ Important Security Notice:</strong>
+                            Your API key is like a password. Never share it publicly, commit it to GitHub, or expose it in client-side code. Keep it secure!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="step-card card fade-in">
+                    <div class="step-number">4</div>
+                    <h2 class="step-title">Copy and Save Your API Key</h2>
+                    <p class="step-description">Store your API key securely before configuring it in the extension.</p>
+                    
+                    <div class="step-content">
+                        <ul class="instruction-list">
+                            <li>Click the copy button next to your API key</li>
+                            <li>Save it in a secure location (password manager recommended)</li>
+                            <li>You can always return to AI Studio to view or regenerate your key</li>
+                        </ul>
+
+                        <div class="note-box">
+                            <strong>💡 Pro Tip:</strong>
+                            Use a password manager like 1Password, LastPass, or Bitwarden to securely store your API key. This makes it easy to access when needed while keeping it safe.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 5 -->
+                <div class="step-card card fade-in">
+                    <div class="step-number">5</div>
+                    <h2 class="step-title">Configure the Extension</h2>
+                    <p class="step-description">Add your API key to Know It All to activate all AI features.</p>
+                    
+                    <div class="step-content">
+                        <ul class="instruction-list">
+                            <li>Click the Know It All extension icon in your Chrome toolbar</li>
+                            <li>Click the "Settings" or gear icon in the extension popup</li>
+                            <li>Paste your API key into the "API Key" field</li>
+                            <li>Click "Save" to store your configuration</li>
+                            <li>The extension will verify your key and confirm it's working</li>
+                        </ul>
+
+                        <div class="note-box">
+                            <strong>✨ You're Ready!</strong>
+                            Once your API key is configured, you can start using all AI features. Select any text on a webpage to see the magic happen!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Understanding API Limits -->
+                <div class="step-card card fade-in">
+                    <div class="step-number">📊</div>
+                    <h2 class="step-title">Understanding API Limits & Pricing</h2>
+                    <p class="step-description">Know It All uses the Gemini API's free tier, which is generous for personal use.</p>
+                    
+                    <div class="step-content">
+                        <div class="features-grid">
+                            <div class="feature-card card">
+                                <div class="feature-icon">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="feature-title">Free Tier</h3>
+                                <p class="feature-text">60 requests per minute with generous daily quotas for personal use</p>
+                            </div>
+                            <div class="feature-card card">
+                                <div class="feature-icon">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="feature-title">Fast Responses</h3>
+                                <p class="feature-text">Get AI-powered results in seconds with low latency</p>
+                            </div>
+                            <div class="feature-card card">
+                                <div class="feature-icon">
+                                    <svg viewBox="0 0 24 24">
+                                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                    </svg>
+                                </div>
+                                <h3 class="feature-title">No Credit Card</h3>
+                                <p class="feature-text">Start using the API immediately without payment information</p>
+                            </div>
+                        </div>
+
+                        <div class="info-box">
+                            <strong>ℹ️ Rate Limits:</strong>
+                            The free tier allows 60 requests per minute and 1,500 requests per day. This is more than enough for typical browsing usage. If you need higher limits, you can upgrade to a paid plan in Google Cloud Console.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="section">
+        <div class="container">
+            <div class="cta-section fade-in">
+                <h2 class="cta-title">Ready to Start?</h2>
+                <p class="cta-text">Get your API key now and unlock the full power of AI-assisted browsing with Know It All.</p>
+                <a href="https://aistudio.google.com/app/apikey" target="_blank" class="btn-primary">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 18a8 8 0 1 1 8-8 8 8 0 0 1-8 8z"/>
+                    </svg>
+                    Get Your API Key
+                </a>
+                <a href="setup.html" class="btn-secondary">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                    View Setup Guide
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 - 2025 Know It All. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ANIMATIONS SCRIPT -->
+    <script>
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

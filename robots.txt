@@ -1,11 +1,11 @@
 # Robots.txt for Know It All Landing Page
-# https://knowitall.jared-steven.com
+# https://jared-steven-dev.github.io/Know-it-all-landing/
 
 User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://knowitall.jared-steven.com/sitemap.xml
+Sitemap: https://jared-steven-dev.github.io/Know-it-all-landing/sitemap.xml
 
 # Disallow admin or private paths (if any)
 Disallow: /private/

@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings Guide - Know It All</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS VARIABLES (Design System) ===== */
+        :root {
+            --bg-main: #FFFEF5;
+            --text-primary: #002c66;
+            --accent: #feda15;
+            --card-bg: #ffffff;
+            --card-border: #F0F0ED;
+            --border-radius: 16px;
+            --font-family: 'Inter', sans-serif;
+        }
+
+        /* ===== RESET & BASE ===== */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-main);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* ===== CUSTOM SCROLLBAR ===== */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-main);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #e5c813;
+        }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--bg-main);
+        }
+
+        /* ===== UTILITY CLASSES ===== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section {
+            padding: 80px 0;
+        }
+
+        /* ===== CARD COMPONENT ===== */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 10px 40px rgba(0, 44, 102, 0.1);
+        }
+
+        /* ===== NAVBAR ===== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: var(--bg-main);
+            border-bottom: 1px solid var(--card-border);
+            z-index: 1000;
+            padding: 16px 0;
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .back-btn {
+            background: var(--accent);
+            color: var(--text-primary);
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .back-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(254, 218, 21, 0.4);
+        }
+
+        /* ===== HERO SECTION ===== */
+        .hero {
+            padding: 60px 0 40px;
+            text-align: center;
+        }
+
+        .hero-headline {
+            font-size: 3rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero-subtext {
+            font-size: 1.15rem;
+            color: var(--text-primary);
+            opacity: 0.8;
+            max-width: 700px;
+            margin: 0 auto 48px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(254, 218, 21, 0.2);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 24px;
+        }
+
+        /* ===== SETTINGS SECTIONS ===== */
+        .settings-section {
+            padding: 40px 0;
+        }
+
+        .settings-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .setting-category {
+            padding: 40px;
+            margin-bottom: 32px;
+            position: relative;
+        }
+
+        .category-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(254, 218, 21, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .category-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--text-primary);
+        }
+
+        .category-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+
+        .category-description {
+            font-size: 1.05rem;
+            opacity: 0.85;
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .setting-item {
+            padding: 24px;
+            margin-bottom: 16px;
+            border-left: 3px solid var(--accent);
+        }
+
+        .setting-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .setting-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .setting-description {
+            font-size: 1rem;
+            opacity: 0.8;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+
+        .setting-options {
+            background: rgba(254, 218, 21, 0.1);
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .setting-options strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .option-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .option-list li {
+            padding: 6px 0 6px 24px;
+            position: relative;
+            font-size: 0.95rem;
+        }
+
+        .option-list li::before {
+            content: '•';
+            position: absolute;
+            left: 8px;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .note-box {
+            background: rgba(254, 218, 21, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+            border-radius: 8px;
+            margin: 24px 0;
+        }
+
+        .note-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* ===== QUICK TIPS GRID ===== */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin: 32px 0;
+        }
+
+        .tip-card {
+            padding: 28px;
+            text-align: left;
+        }
+
+        .tip-icon {
+            width: 48px;
+            height: 48px;
+            background: rgba(254, 218, 21, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .tip-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-primary);
+        }
+
+        .tip-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .tip-text {
+            font-size: 0.95rem;
+            opacity: 0.75;
+            line-height: 1.6;
+        }
+
+        /* ===== CTA SECTION ===== */
+        .cta-section {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: var(--border-radius);
+            padding: 60px 40px;
+            text-align: center;
+            margin: 60px auto;
+            max-width: 800px;
+        }
+
+        .cta-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .cta-text {
+            font-size: 1.1rem;
+            opacity: 0.8;
+            margin-bottom: 32px;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--text-primary);
+            padding: 14px 32px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(254, 218, 21, 0.4);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: var(--bg-main);
+            border-top: 1px solid var(--card-border);
+            padding: 32px 0;
+            text-align: center;
+        }
+
+        .footer p {
+            font-size: 0.9rem;
+            opacity: 0.6;
+        }
+
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-headline {
+                font-size: 2rem;
+            }
+
+            .hero-subtext {
+                font-size: 1rem;
+            }
+
+            .setting-category {
+                padding: 24px;
+            }
+
+            .category-title {
+                font-size: 1.4rem;
+            }
+
+            .tips-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-section {
+                padding: 40px 24px;
+            }
+
+            .cta-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* ===== ANIMATIONS ===== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <img src="icon.png" alt="Know It All" class="logo-icon">
+                Know It All
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#docs">Resources</a></li>
+                <li><a href="index.html" class="back-btn">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 12H5M12 19l-7-7 7-7"/>
+                    </svg>
+                    Back to Home
+                </a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-badge fade-in">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                </svg>
+                Settings & Customization
+            </div>
+            <h1 class="hero-headline fade-in">Personalize Your <span style="color: var(--accent);">AI Experience</span></h1>
+            <p class="hero-subtext fade-in">Customize Know It All to match your preferences. Configure languages, explanation styles, summary types, and more to get the perfect AI-powered browsing experience.</p>
+        </div>
+    </section>
+
+    <!-- SETTINGS SECTIONS -->
+    <section class="settings-section">
+        <div class="container">
+            <div class="settings-container">
+                <!-- Language Preferences -->
+                <div class="setting-category card fade-in">
+                    <div class="category-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12.87 15.07l-2.54-2.51.03-.03A17.52 17.52 0 0 0 14.07 6H17V4h-7V2H8v2H1v2h11.17C11.5 7.92 10.44 9.75 9 11.35 8.07 10.32 7.3 9.19 6.69 8h-2c.73 1.63 1.73 3.17 2.98 4.56l-5.09 5.02L4 19l5-5 3.11 3.11.76-2.04zM18.5 10h-2L12 22h2l1.12-3h4.75L21 22h2l-4.5-12zm-2.62 7l1.62-4.33L19.12 17h-3.24z"/>
+                        </svg>
+                    </div>
+                    <h2 class="category-title">Language Preferences</h2>
+                    <p class="category-description">Configure your preferred languages for AI responses and translations.</p>
+                    
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Preferred Language</h3>
+                        <p class="setting-description">Set the default language for all AI responses. The extension will provide explanations, summaries, and other content in this language.</p>
+                        <div class="setting-options">
+                            <strong>Examples:</strong>
+                            <ul class="option-list">
+                                <li>English (default)</li>
+                                <li>Spanish</li>
+                                <li>French</li>
+                                <li>German</li>
+                                <li>Hindi</li>
+                                <li>Any other language supported by Gemini AI</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Translation Language</h3>
+                        <p class="setting-description">Choose the target language for the Translate feature. When you select text and click "Translate," it will be converted to this language.</p>
+                        <div class="setting-options">
+                            <strong>Popular choices:</strong>
+                            <ul class="option-list">
+                                <li>Spanish - Great for learning or travel</li>
+                                <li>French - Business and cultural content</li>
+                                <li>Mandarin Chinese - International communication</li>
+                                <li>Japanese - Anime, manga, and tech content</li>
+                                <li>Arabic - Middle Eastern content</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Translation Mode</h3>
+                        <p class="setting-description">Choose between two translation modes to match your learning style.</p>
+                        <div class="setting-options">
+                            <strong>Available modes:</strong>
+                            <ul class="option-list">
+                                <li><strong>Default Translate:</strong> Quick, straightforward translation of the selected text</li>
+                                <li><strong>Translate to Learn:</strong> Detailed word-by-word breakdown with pronunciation guides, grammar notes, and example usage - perfect for language learners</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Explanation Styles -->
+                <div class="setting-category card fade-in">
+                    <div class="category-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M9 21h6M12 3a6 6 0 0 0-6 6c0 2.22 1.21 4.16 3 5.19V17a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-2.81c1.79-1.03 3-2.97 3-5.19a6 6 0 0 0-6-6z"/>
+                        </svg>
+                    </div>
+                    <h2 class="category-title">Explanation Types</h2>
+                    <p class="category-description">Select how you want complex topics explained to match your learning preference.</p>
+                    
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Causal Explanations</h3>
+                        <p class="setting-description">Focuses on cause-and-effect relationships. Explains <strong>why</strong> something happens and what leads to specific outcomes.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> Understanding scientific processes, historical events, or logical reasoning
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Sequential Explanations</h3>
+                        <p class="setting-description">Breaks down information into step-by-step processes. Explains <strong>how</strong> something works in chronological order.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> Learning procedures, algorithms, recipes, or any process-oriented content
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Descriptive Explanations</h3>
+                        <p class="setting-description">Provides detailed descriptions of characteristics, features, and properties. Explains <strong>what</strong> something is.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> Understanding concepts, objects, or phenomena through detailed descriptions
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Comparative Explanations</h3>
+                        <p class="setting-description">Explains by comparing and contrasting with similar concepts. Highlights similarities and differences.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> Understanding new concepts by relating them to familiar ones
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Analytical Explanations</h3>
+                        <p class="setting-description">Breaks down complex topics into components and examines relationships between parts.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> Deep understanding of systems, structures, or complex theories
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Interpretive Explanations</h3>
+                        <p class="setting-description">Provides meaning and context. Explains significance, implications, and deeper understanding.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> Literature, philosophy, art, or content requiring contextual understanding
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Types -->
+                <div class="setting-category card fade-in">
+                    <div class="category-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M3 13h2v-2H3v2zm0 4h2v-2H3v2zm0-8h2V7H3v2zm4 4h14v-2H7v2zm0 4h14v-2H7v2zM7 7v2h14V7H7z"/>
+                        </svg>
+                    </div>
+                    <h2 class="category-title">Summary Types</h2>
+                    <p class="category-description">Choose how you want lengthy content summarized to match your reading goals.</p>
+                    
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Descriptive Summary</h3>
+                        <p class="setting-description">Objectively describes the main points without interpretation or evaluation.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> News articles, factual content, or when you need unbiased information
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Evaluative Summary</h3>
+                        <p class="setting-description">Includes critical assessment and judgment of the content's quality and validity.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> Research papers, opinion pieces, or when you need quality assessment
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Narrative Summary</h3>
+                        <p class="setting-description">Tells the story in a flowing, chronological manner with emphasis on key events.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> Stories, case studies, historical accounts, or sequential content
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Informative Summary</h3>
+                        <p class="setting-description">Focuses on conveying key facts and information in a clear, concise manner.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> Educational content, tutorials, or informational articles
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Thematic Summary</h3>
+                        <p class="setting-description">Organizes content around central themes and ideas rather than chronological order.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> Complex articles with multiple topics or thematic analysis
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Executive Summary</h3>
+                        <p class="setting-description">Brief, high-level overview focusing on key findings, conclusions, and recommendations.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> Business reports, research papers, or when you need quick insights
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Critical Summary</h3>
+                        <p class="setting-description">Analyzes strengths, weaknesses, and implications of the content.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> Academic papers, arguments, or content requiring critical thinking
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Synoptic Summary (Synthesis)</h3>
+                        <p class="setting-description">Combines information from multiple sources or sections into a unified overview.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> Long documents, multiple perspectives, or comprehensive understanding
+                        </div>
+                    </div>
+
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Précis</h3>
+                        <p class="setting-description">Ultra-concise summary maintaining the original tone and structure in minimal words.</p>
+                        <div class="setting-options">
+                            <strong>Best for:</strong> When you need the absolute shortest summary possible
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Programming Languages -->
+                <div class="setting-category card fade-in">
+                    <div class="category-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M8 3l-4 4 4 4M16 3l4 4-4 4M12 3v18"/>
+                        </svg>
+                    </div>
+                    <h2 class="category-title">Programming Language Preference</h2>
+                    <p class="category-description">Set your preferred programming language for the Code Generator feature.</p>
+                    
+                    <div class="setting-item card">
+                        <h3 class="setting-name">Preferred Programming Language</h3>
+                        <p class="setting-description">Choose which programming language the AI should use when generating code solutions. Select "Auto-detect" to let the AI choose the best language for each problem.</p>
+                        <div class="setting-options">
+                            <strong>Supported languages:</strong>
+                            <ul class="option-list">
+                                <li><strong>Auto-detect:</strong> AI chooses the best language for the task</li>
+                                <li><strong>Python:</strong> Great for data science, scripting, and general purpose</li>
+                                <li><strong>JavaScript:</strong> Web development and frontend applications</li>
+                                <li><strong>TypeScript:</strong> Type-safe JavaScript for larger projects</li>
+                                <li><strong>Java:</strong> Enterprise applications and Android development</li>
+                                <li><strong>C++:</strong> Performance-critical applications and systems programming</li>
+                                <li><strong>C#:</strong> .NET applications and game development (Unity)</li>
+                                <li><strong>Go:</strong> Cloud services and backend systems</li>
+                                <li><strong>Rust:</strong> Systems programming with memory safety</li>
+                                <li><strong>Ruby:</strong> Web development with Rails</li>
+                                <li><strong>PHP:</strong> Server-side web development</li>
+                                <li><strong>Swift:</strong> iOS and macOS applications</li>
+                                <li><strong>Kotlin:</strong> Modern Android development</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Tips -->
+                <div class="setting-category card fade-in">
+                    <div class="category-icon">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h2 class="category-title">Tips for Best Results</h2>
+                    <p class="category-description">Get the most out of Know It All with these customization tips.</p>
+                    
+                    <div class="tips-grid">
+                        <div class="tip-card card">
+                            <div class="tip-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M9 21h6M12 3a6 6 0 0 0-6 6c0 2.22 1.21 4.16 3 5.19V17a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-2.81c1.79-1.03 3-2.97 3-5.19a6 6 0 0 0-6-6z"/>
+                                </svg>
+                            </div>
+                            <h3 class="tip-title">Match Your Learning Style</h3>
+                            <p class="tip-text">Choose explanation types that align with how you learn best. Visual learners may prefer descriptive, while logical thinkers might prefer causal.</p>
+                        </div>
+
+                        <div class="tip-card card">
+                            <div class="tip-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                            </div>
+                            <h3 class="tip-title">Experiment with Settings</h3>
+                            <p class="tip-text">Try different summary types and explanation styles to find what works best for different types of content.</p>
+                        </div>
+
+                        <div class="tip-card card">
+                            <div class="tip-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                                </svg>
+                            </div>
+                            <h3 class="tip-title">Use Learn Mode</h3>
+                            <p class="tip-text">Enable "Translate to Learn" mode when studying a new language to get detailed breakdowns and pronunciation guides.</p>
+                        </div>
+
+                        <div class="tip-card card">
+                            <div class="tip-icon">
+                                <svg viewBox="0 0 24 24">
+                                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                </svg>
+                            </div>
+                            <h3 class="tip-title">Save Your Preferences</h3>
+                            <p class="tip-text">Your settings are saved automatically and synced across all your devices where you use Chrome.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA SECTION -->
+    <section class="section">
+        <div class="container">
+            <div class="cta-section fade-in">
+                <h2 class="cta-title">Ready to Customize?</h2>
+                <p class="cta-text">Open the extension settings to personalize your AI experience and start getting better results tailored to your needs.</p>
+                <a href="setup.html" class="btn-primary">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                    </svg>
+                    View Setup Guide
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2023 - 2025 Know It All. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- ANIMATIONS SCRIPT -->
+    <script>
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>
